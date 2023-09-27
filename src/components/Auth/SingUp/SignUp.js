@@ -17,8 +17,8 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState(""); // Agregamos un estado para el error de correo electrónico
 
-  //   useEffect se ejecuta 1 sola vez cuando se cargue el componente
   useEffect(() => {
     console.log("signup");
   }, []);
@@ -39,19 +39,38 @@ export const SignUp = () => {
     setLastname(event.target.value);
   };
 
+  const handleSetEmail = (event) => {
+    const inputEmail = event.target.value;
+    setEmail(inputEmail);
+
+    // Validar el correo electrónico
+    const regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+    if (!regex.test(inputEmail)) {
+      setEmailError("Email address is invalid");
+    } else {
+      setEmailError("");
+    }
+  };
+
   const handleSave = async () => {
-    const data = {
-      firstname: firstname,
-      lastname: lastname,
-      email,
-      currentPassword,
-    };
-    console.log(data);
-    try {
-      const response = await auth.signUp(data);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    // Validar el correo electrónico antes de guardar
+    if (emailError) {
+      // Si hay un error en el correo electrónico, no se guarda
+      console.log("Validation errors: ", emailError);
+    } else {
+      const data = {
+        firstname: firstname,
+        lastname: lastname,
+        email,
+        currentPassword,
+      };
+      console.log(data);
+      try {
+        const response = await auth.signUp(data);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -93,10 +112,21 @@ export const SignUp = () => {
                   id="combo-box-demo"
                   options={documentTypeOptions}
                   sx={{ width: 300 }}
-                  // open={false}
                   renderInput={(params) => (
                     <TextField {...params} label="DocumentType" />
                   )}
+                />
+              </div>
+              <div className="auth-form__row">
+                <TextField
+                  className="input-auth-form"
+                  id="email"
+                  value={email}
+                  label="Email"
+                  variant="standard"
+                  onChange={handleSetEmail}
+                  error={Boolean(emailError)}
+                  helperText={emailError}
                 />
               </div>
               <div className="auth-form__row">
