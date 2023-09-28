@@ -7,7 +7,6 @@ const LoginPage = () => {
     <>
       <div>Login Page</div>
       <Login></Login>
-      {/* <Politics></Politics> */}
     </>
   );
 };

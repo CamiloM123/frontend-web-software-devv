@@ -6,7 +6,6 @@ const SignUpPage = () => {
     <>
       <div>SignUp Page</div>
       <SignUp></SignUp>
-      {/* <Politics></Politics> */}
     </>
   );
 };
