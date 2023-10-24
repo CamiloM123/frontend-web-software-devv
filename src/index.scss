@@ -6,15 +6,17 @@ body{
 }
 
 header {
-    background-color: rgb(90, 196, 215);
+    font-size: 1rem;
+    height: 60px;
+    background-color: #4c76d6;
     padding: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
 }
 nav{
     display: flex;
+    
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -27,7 +29,12 @@ nav ul{
     display: flex;
     justify-content: space-between;
     margin: 8px;
+
 }
+
+.custom-link:visited {
+    color: #f1f5fd; /* Puedes elegir cualquier color que desees */
+  }
 
 nav a{
     text-decoration: none;

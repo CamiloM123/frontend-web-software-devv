@@ -6,7 +6,7 @@ const { API_ROUTES } = ENV;
 export class Auth {
   // Registro
   async signUp(data){
-    const response = await fetch(`${ENV.BASE_API_URL}${API_ROUTES.AUTH}`, {
+    const response = await fetch(`${ENV.BASE_API_URL}${API_ROUTES.REGISTER}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,27 +23,44 @@ export class Auth {
     }
   };
 
+
+
   // Autenticación
-  // login = async (data) => {
-  //   const response = await fetch(`${SERVER_IP}${API_ROUTES.LOGIN}`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  //   try {
-  //     if (response.status !== 200) {
-  //       throw new Error("Error al crear usuario");
-  //     } else {
-  //       const { token } = await response.json();
-  //       console.log(token);
-  //       localStorage.setItem(ENV.JWT.ACCESS, token);
-  //     }
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-  
-  
+  async login(data)  {
+    
+    const response = await fetch(`${ENV.BASE_API_URL}${API_ROUTES.LOGIN}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    console.log(data, "data");
+    console.log(response.status, "status");
+    
+    try {
+      if(response.status === 200){
+        const result = await response.json();
+
+        if (result && result.access) {
+          this.setAccessToken(result.access);
+        }
+        console.log("Usuario logueado exitosamente");
+        return response;
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  getAccessToken = () => {
+    return localStorage.getItem("access");
+  };
+
+  setAccessToken = (accessToken) => {
+    localStorage.setItem("access", accessToken);
+  };
+
 }

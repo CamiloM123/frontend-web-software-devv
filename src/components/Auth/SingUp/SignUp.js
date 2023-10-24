@@ -1,4 +1,9 @@
 import * as React from 'react';
+
+// import { useEffect } from 'react';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,7 +28,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 // Toast
 import Snackbar from '@mui/material/Snackbar';
 import Alert  from '@mui/material/Alert';
-import { useState } from 'react';
 
 // import { Login } from '../Login/Login';
 
@@ -112,8 +116,19 @@ export const SignUp = () =>  {
   };
 
   if (registrationSuccess) {
-    window.location.href = '/login?registrationSuccess=true';
+    // window.location.href = '/login?registrationSuccess=true';
+    return <Navigate to={`/login?registrationSuccess=true`} />;
   }
+
+
+  // useEffect(() => {
+  //   if (registrationSuccess) {
+  //     // Redirige al usuario a la página de inicio de sesión con un parámetro de éxito en la URL
+  //     // Usamos un objeto de búsqueda para incluir el parámetro en la URL
+  //     // Por ejemplo, '/login?registrationSuccess=true'
+  //     return <Navigate to={`/login?registrationSuccess=true`} />;
+  //   }
+  // }, [setRegistrationSuccess]);
 
 
   const handleClickOpen = () => {
