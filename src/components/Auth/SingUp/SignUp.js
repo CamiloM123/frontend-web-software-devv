@@ -1,4 +1,9 @@
 import * as React from 'react';
+
+// import { useEffect } from 'react';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,7 +28,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 // Toast
 import Snackbar from '@mui/material/Snackbar';
 import Alert  from '@mui/material/Alert';
-import { useState } from 'react';
 
 // import { Login } from '../Login/Login';
 
@@ -67,6 +71,8 @@ export const SignUp = () =>  {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const name = data.get('name');
+    const lastname = data.get('lastname');
     const email = data.get('email');
     const password = data.get('password');
     const repeatPassword = data.get('repeatPassword');
@@ -91,8 +97,8 @@ export const SignUp = () =>  {
     }
 
     const data2 = {
-      name: "Juan",
-      lastname: "Perez",
+      name: name,
+      lastname: lastname,
       email: email,
       password: password,
     };
@@ -112,10 +118,10 @@ export const SignUp = () =>  {
   };
 
   if (registrationSuccess) {
-    window.location.href = '/login?registrationSuccess=true';
+    // window.location.href = '/login?registrationSuccess=true';
+    return <Navigate to={`/login?registrationSuccess=true`} />;
   }
-
-
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -131,13 +137,6 @@ export const SignUp = () =>  {
     setOpenSnackbar(false);
   };  
 
-  // const handleCloseSnackbar2 = (event, reason) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-  //   setOpenSnackbar(false);
-  // }; 
-
   const handleAgree = () => {
     setUserDecision('agree');
     setOpen(false);
@@ -147,14 +146,6 @@ export const SignUp = () =>  {
     setUserDecision('disagree');
     setOpen(false);
   };
-
-
-  // const documentTypeOptions = [
-  //   { value: "CC", label: "Cédula de ciudadanía" },
-  //   { value: "CE", label: "Cédula extranjera" },
-  //   { value: "TI", label: "Tarjeta de identidad" },
-  //   { value: "Pasaporte", label: "Pasaporte" },
-  // ];
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -175,8 +166,28 @@ export const SignUp = () =>  {
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              
+            <Grid container spacing={1}>
+              <Grid item xs={6} >
+                <TextField
+                    required
+                    fullWidth
+                    id="name"
+                    label="Name"
+                    name="name"
+                    autoComplete="name"
+                  />
+              </Grid>
+              <Grid item xs={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="lastname"
+                    label="Lastname"
+                    name="lastname"
+                    autoComplete="lastname"
+                  />
+                </Grid>
+
             <Grid item xs={12}>
                 <TextField
                   required
@@ -186,6 +197,9 @@ export const SignUp = () =>  {
                   name="email"
                   autoComplete="email"
                 />
+              </Grid>
+              <Grid item xs={12}>
+
               </Grid>
               <Grid item xs={12}>
                 <TextField

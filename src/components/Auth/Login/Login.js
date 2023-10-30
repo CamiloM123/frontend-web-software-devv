@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,6 +17,8 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert  from '@mui/material/Alert';
 import { useEffect } from 'react';
 import { useState } from 'react';
+
+import { Auth } from "../../../api/auth";
 
 function Copyright(props) {
   return (
@@ -36,6 +39,8 @@ export const Login = () =>  {
   
   // const [status, setStatus] = useState(false); // Estado para almacenar el valor de status
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const auth = new Auth();
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -51,22 +56,35 @@ export const Login = () =>  {
     }
   }, []);
 
-  // console.log(status);
-  
-
-  // if (status){
-  //   setOpenSnackbar(true);
-  // }
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    
+    const data2 = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+
+    try {
+      const response = await auth.login(data2);
+      console.log(response, "response");
+
+      if (response.status === 200) {
+        // La solicitud se completó correctamente, establecer el estado de redirección
+        console.log("Usuario logueado exitosamente");
+        setLoginSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
  
   };
+
+  if (loginSuccess) {
+    // window.location.href = '/login?registrationSuccess=true';
+    return <Navigate to={`/dashboard?loginSuccess=true`} />;
+  }
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -127,6 +145,7 @@ export const Login = () =>  {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+
             >
               Sign In
             </Button>
