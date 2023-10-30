@@ -63,4 +63,40 @@ export class Auth {
     localStorage.setItem("access", accessToken);
   };
 
+  async getAllUsers(){
+    const response = await fetch(`${ENV.BASE_API_URL}${API_ROUTES.GET}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(),
+    });
+    try {
+      if (response.status === 200) {
+        console.log("Lista de usuarios");
+        return response
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  async deleteUser(data){
+    const response = await fetch(`${ENV.BASE_API_URL}${API_ROUTES.GET}/${data}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(),
+    });
+    try {
+      if (response.status === 200) {
+        console.log("Usuario eliminado exitosamente");
+        return response
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 }

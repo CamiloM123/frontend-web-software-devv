@@ -39,6 +39,7 @@ export const Login = () =>  {
   
   // const [status, setStatus] = useState(false); // Estado para almacenar el valor de status
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const auth = new Auth();
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export const Login = () =>  {
       if (response.status === 200) {
         // La solicitud se completó correctamente, establecer el estado de redirección
         console.log("Usuario logueado exitosamente");
-        <Navigate to={`/dashboard`} />;
+        setLoginSuccess(true);
       }
     } catch (error) {
       console.log(error);
@@ -79,6 +80,11 @@ export const Login = () =>  {
 
  
   };
+
+  if (loginSuccess) {
+    // window.location.href = '/login?registrationSuccess=true';
+    return <Navigate to={`/dashboard?loginSuccess=true`} />;
+  }
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
